@@ -1,0 +1,60 @@
+{% extends 'admin/base_site.html' %}
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% load adminmedia %}{% admin_media_prefix %}css/controlpanel.css" />
+<script type="text/javascript" src="{{ STATIC_URL }}jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}admin.js"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs"><a href="{% url admin:index %}">Home</a> &rsaquo; Control Panel</div>
+{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block content %}
+{% if sel_q %}
+<p id="imageview">
+<img src="{% url admin:admincp_get_image sel_q.id %}" />
+</p>
+{% endif %}
+<h1>Teams</h1>
+<p>
+<ul class="teamlist">
+{% for team in teams %}
+<li class="{% if team.is_active %}green{% else %}gray{% endif %}" title="{{ team.password }}" id="team_box_{{ team.id }}">{{ team.name }}</li>
+{% endfor %}
+</ul>
+<div class="legend"><div class="legend_box green"></div><div class="legend_desc">Online</div><div class="legend_box gray"></div><div class="legend_desc">Offline</div></div>
+<div style="clear: left"></div>
+</p>
+<h1>Questions</h1>
+<p>
+<div class="questionlist">
+{% for question in questions %}
+<a class="{% if question.is_visible %}green{% else %}gray{% endif %} {% if question == sel_q %}selected{% endif %}"
+title="{{ question.title }}" href="{% url admin:admincp_index_wqnum question.number %}">{{ question.number }}</a>
+{% endfor %}
+</div>
+<div style="clear: left"></div>
+</p>
+<p>
+<form action="{% url admin:admincp_show_question %}" method="get">
+Show question <input type="text" name="qnum" id="txt_qnum" value="{% if sel_q %}{{ sel_q.number }}{% endif %}" size="3" />
+for <input type="text" name="secs" value="60" size="3" /> seconds <input type="submit" value="OK" />
+</form>
+{% if cur_question %}
+Time left: {{ cur_question.time_left }} secs
+<form action="{% url admin:admincp_hide_question %}" method="get"><input type="submit" value="Hide current question now" /></form>{% endif %}
+</p>
+<h1>Answers{% if sel_q %} for question "{{ sel_q.title }}"{% endif %}</h1>
+{% if sel_q %}
+<table>
+<tr><th>Team</th><th>Answer</th><th>Correct</th><th>Points</th></tr>
+{% for ans in answers_list %}
+<tr><td>{{ ans.team.name }}</td><td>{{ ans.text|linebreaksbr }}</td><td>{% if ans.correct == None %}?{% else %}{{ ans.correct }}{% endif %}</td><td>{{ ans.points }}</td></tr>
+{% endfor %}
+</table>
+{% else %}
+<p>Click on question number above.</p>
+{% endif %}
+{% endblock %}

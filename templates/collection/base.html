@@ -1,0 +1,16 @@
+<html>
+	<head>
+		<title>{% block title %}Protmušis{% endblock %}</title>
+		<script type="text/javascript" src="{{ STATIC_URL }}jquery-1.6.2.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheet.css" />
+		{% block head %}{% endblock %}
+	</head>
+	<body>
+		<div class="page">
+			{% if team %}<a class="logout" href="{% url collection.views.logout %}">Atsijungti</a>{% endif %}
+			{% block content %}
+			
+			{% endblock %}
+		</div>
+	</body>
+</html>

@@ -1,0 +1,7 @@
+{% extends 'admin/index.html' %}
+{% block content_title %}{% endblock %}
+{% block sidebar %}{% endblock %}
+{% block content %}
+<p><a href="{% url admin:admincp_index %}">Open Control Panel</a></p>
+{{ block.super }}
+{% endblock %}
