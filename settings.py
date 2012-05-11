@@ -1,5 +1,7 @@
 # Django settings for protmusis project.
 
+# Pagrindinė versija
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
