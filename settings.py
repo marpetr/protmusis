@@ -1,5 +1,7 @@
 # Django settings for protmusis project.
 
+# This is event push branch.
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
